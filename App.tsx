@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { ThemeProvider } from "react-native-stylex";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StylexSaveAreaConsumer } from "react-native-stylex/safe-area";
+
+import { darkTheme, lightTheme } from "./style-system/theme";
+
+import { Root } from "./Root";
 
 export default function App() {
+  const [theme, setTheme] = useState(lightTheme);
+  const toggleTheme = () => setTheme((currentTheme) => (currentTheme === darkTheme ? lightTheme : darkTheme));
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <ThemeProvider value={theme}>
+        <Root toggleTheme={toggleTheme} />
+      </ThemeProvider>
+      <StylexSaveAreaConsumer />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
